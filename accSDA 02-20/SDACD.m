@@ -40,16 +40,14 @@ beta = b0;
 % Matrices for theta update.
 %-------------------------------------------------------------------
 D = (1/n)*(Y'*Y);
-sizeD = size(D)
 R = chol(D); % Cholesky factorization of D.
-sizeR = size(R)
 %---------------------------------------
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Outer loop.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % For j=1,2,..., q compute the SDA pair (theta_j, beta_j).
-
+its = 1;
 for j = 1:q
     
     %+++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -85,7 +83,7 @@ for j = 1:q
        Z = (1 - 2*alpha*gam)*beta(i) + 2*alpha*(X(:,i)'*Y*theta - X(:,i)'*X*beta);
        beta(i) = sign(Z).*max(abs(Z) - alpha*lam, 0);
     end
-    
+    beta
     b_old = beta;
     
     % Update theta using the projected solution.
@@ -115,11 +113,14 @@ for j = 1:q
     % Check convergence.
     if max(db, dt) < tol
         % Converged.
+        fprintf('converged  in %g iterations \n', its);
         break
     end
     
     % Update Q and B.
     Q(:,j) = theta;
     B(:,j) = beta;
+    
+    its = its + 1;   
 end
 end

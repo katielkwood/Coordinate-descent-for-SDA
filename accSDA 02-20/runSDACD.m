@@ -1,14 +1,16 @@
-b0 = ones(136,1);
-X=train(:,2:137);
-Y=zeros(23,2);
+[n, p1] = size(train);
+b0 = ones(p1 - 1,1);
+X=train(:,2:p1);
+[n, p] = size(X);
+Y=zeros(n,2);
 labels=train(:,1);
-for i=1:23 
+for i=1:n 
     Y(i, labels(i))=1;
 end
-Om = eye(136);
+Om = eye(p);
 gam = 10^(-5);
 lam = 10^(-5);
-q = 50;
+q = 10;
 maxits = 100;
 tol = 10^(-6);
 
