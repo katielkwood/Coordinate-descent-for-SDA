@@ -36,6 +36,8 @@ function [B, Q] = SDACD(b0, Y, X, Om, gam, lam, q, maxits, tol)
 Q = ones(K,q);
 B = zeros(p, q);
 beta = b0;
+
+A = 2*(X'*X + gam*Om);
 %-------------------------------------------------------------------
 % Matrices for theta update.
 %-------------------------------------------------------------------
@@ -79,11 +81,11 @@ for j = 1:q
     for i = 1:p
         
        % Maybe I just need to update one coordinate then update theta and calculate the error.     
-       alpha = 1;
+       alpha = 1/norm(A);
        Z = (1 - 2*alpha*gam)*beta(i) + 2*alpha*(X(:,i)'*Y*theta - X(:,i)'*X*beta);
        beta(i) = sign(Z).*max(abs(Z) - alpha*lam, 0);
     end
-    beta
+    beta;
     b_old = beta;
     
     % Update theta using the projected solution.
@@ -100,13 +102,13 @@ for j = 1:q
         db = norm(beta-b_old)/norm(beta);
         dt = norm(theta-t_old)/norm(theta);
             
-    else
+     %else
         % Update b and theta.
-        beta = 0;
-        theta = 0;
+        %beta = 0;
+        %theta = 0;
         % Update change.
-        db = 0;
-        dt = 0;
+        %db = 0;
+        %dt = 0;
     end;        
         
         
