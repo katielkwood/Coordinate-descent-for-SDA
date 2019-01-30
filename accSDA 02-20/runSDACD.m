@@ -10,8 +10,9 @@ end
 
 %% 
 Om = eye(p);
-gam = 10^(-5);
-lam = 10^(-5);
+gam = 10^(-1);
+%lam = 10^(-5);
+lam = gam
 q = 1;
 maxits = 100;
 tol = 10^(-6);
