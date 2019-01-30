@@ -7,10 +7,12 @@ labels=train(:,1);
 for i=1:n 
     Y(i, labels(i))=1;
 end
+
+%% 
 Om = eye(p);
 gam = 10^(-5);
 lam = 10^(-5);
-q = 10;
+q = 1;
 maxits = 100;
 tol = 10^(-6);
 
