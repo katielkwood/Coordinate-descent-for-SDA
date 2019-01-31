@@ -44,6 +44,12 @@ A = 2*(X'*X + gam*Om);
 D = (1/n)*(Y'*Y);
 R = chol(D); % Cholesky factorization of D.
 %---------------------------------------
+%-------------------------------------------------------------------
+% Alpha. Change later.
+%-------------------------------------------------------------------
+A = X'*X;
+alpha = 1/norm(A)
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Outer loop.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -81,12 +87,15 @@ for j = 1:q
     for i = 1:p
         
        % Maybe I just need to update one coordinate then update theta and calculate the error.     
+
        alpha = 1/norm(A);
        Z = (1 - 2*alpha*gam)*beta(i) + 2*alpha*(X(:,i)'*Y*theta - X(:,i)'*X*beta);
        beta(i) = sign(Z).*max(abs(Z) - alpha*lam, 0);
     end
     beta;
+
     b_old = beta;
+    norm(beta)
     
     % Update theta using the projected solution.
     if norm(beta) > 1e-15  %Why do we want the norm of beta to be 0 for beta to be correct? Because we want it to be sparse?
@@ -95,10 +104,10 @@ for j = 1:q
         y = R'\b;
         z = R\y;
         tt = Mj(z);
-        t_old = theta;
-        theta = tt/sqrt(tt'*D*tt); 
+        t_old = theta
+        theta = tt/sqrt(tt'*D*tt)
             
-        % Update changes..
+        % Update changes.
         db = norm(beta-b_old)/norm(beta);
         dt = norm(theta-t_old)/norm(theta);
             
@@ -121,7 +130,7 @@ for j = 1:q
     
     % Update Q and B.
     Q(:,j) = theta;
-    B(:,j) = beta;
+    B(:,j) = beta
     
     its = its + 1;   
 end
