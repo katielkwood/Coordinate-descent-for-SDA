@@ -15,8 +15,8 @@ gam = 10^(-5);
 %lam = 10^(-5);
 lam = gam
 
-q = 5;
+q = 3;
 maxits = 100;
 tol = 10^(-6);
 
-[B, Q, Beta] = SDACD(b0, Y, X, Om, gam, lam, q, maxits, tol);
+[B, Q] = SDACD(b0, Y, X, Om, gam, lam, q, maxits, tol);

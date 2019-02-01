@@ -1,5 +1,5 @@
 
-function [B, Q] = SDACD(b0, Y, X, Om, gam, lam, q, maxits, tol)
+function [B, Q,] = SDACD(b0, Y, X, Om, gam, lam, q, maxits, tol)
 
 % Applies coordinate descent algorithm to the optimal scoring formulation of
 % sparse discriminant analysis proposed by Clemmensen et al. 2011.
