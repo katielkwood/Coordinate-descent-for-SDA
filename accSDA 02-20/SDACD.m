@@ -1,5 +1,5 @@
 
-function [B, Q] = SDACD(b0, Y, X, Om, gam, lam, q, maxits, tol)
+function [B, Q, Beta] = SDACD(b0, Y, X, Om, gam, lam, q, maxits, tol)
 
 % Applies coordinate descent algorithm to the optimal scoring formulation of
 % sparse discriminant analysis proposed by Clemmensen et al. 2011.
@@ -32,10 +32,10 @@ function [B, Q] = SDACD(b0, Y, X, Om, gam, lam, q, maxits, tol)
 [n, p] = size(X);
 [~, K] = size(Y);
 
-% Initialize B and Q and beta.
+% Initialize B and Q and Beta.
 Q = ones(K,q);
 B = zeros(p, q);
-beta = b0;
+Beta = b0;
 
 A = 2*(X'*X + gam*Om);
 %-------------------------------------------------------------------
@@ -54,7 +54,7 @@ alpha = 1/norm(A)
 % Outer loop.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% For j=1,2,..., q compute the SDA pair (theta_j, beta_j).
+% For j=1,2,..., q compute the SDA pair (theta_j, Beta_j).
 its = 1;
 for j = 1:q
     
@@ -68,8 +68,8 @@ for j = 1:q
     % Precompute Mj = I - Qj*Qj'*D.
     Mj = @(u) u - Qj*(Qj'*D*u);
     
-    %compute D^-1*Y^T*X*beta
-    y = R'\(Y'*X*beta);
+    %compute D^-1*Y^T*X*Beta
+    y = R'\(Y'*X*Beta);
     z = R\y;
     
     % Initialize theta.
@@ -81,7 +81,7 @@ for j = 1:q
 
     
     %+++++++++++++++++++++++++++++++++++++++++++++++++++++
-    % Coordinate descent method for updating (theta, beta)
+    % Coordinate descent method for updating (theta, Beta)
     %+++++++++++++++++++++++++++++++++++++++++++++++++++++
     
     for i = 1:p
@@ -89,18 +89,18 @@ for j = 1:q
        % Maybe I just need to update one coordinate then update theta and calculate the error.     
 
        alpha = 1/norm(A);
-       Z = (1 - 2*alpha*gam)*beta(i) + 2*alpha*(X(:,i)'*Y*theta - X(:,i)'*X*beta);
-       beta(i) = sign(Z).*max(abs(Z) - alpha*lam, 0);
+       Z = (1 - 2*alpha*gam)*Beta(i) + 2*alpha*(X(:,i)'*Y*theta - X(:,i)'*X*Beta);
+       Beta(i) = sign(Z).*max(abs(Z) - alpha*lam, 0);
     end
-    beta;
+    Beta
 
-    b_old = beta;
-    norm(beta)
+    b_old = Beta;
+    normBeta = norm(Beta)
     
     % Update theta using the projected solution.
-    if norm(beta) > 1e-15  %Why do we want the norm of beta to be 0 for beta to be correct? Because we want it to be sparse?
+    if norm(Beta) > 1e-15  %Why do we want the norm of Beta to be 0 for Beta to be correct? Because we want it to be sparse?
         % update theta using cholesky factorization of D
-        b = Y'*(X*beta);
+        b = Y'*(X*Beta);
         y = R'\b;
         z = R\y;
         tt = Mj(z);
@@ -108,12 +108,12 @@ for j = 1:q
         theta = tt/sqrt(tt'*D*tt)
             
         % Update changes.
-        db = norm(beta-b_old)/norm(beta);
+        db = norm(Beta-b_old)/norm(Beta);
         dt = norm(theta-t_old)/norm(theta);
             
      %else
         % Update b and theta.
-        %beta = 0;
+        %Beta = 0;
         %theta = 0;
         % Update change.
         %db = 0;
@@ -130,7 +130,7 @@ for j = 1:q
     
     % Update Q and B.
     Q(:,j) = theta;
-    B(:,j) = beta
+    B(:,j) = Beta;
     
     its = its + 1;   
 end

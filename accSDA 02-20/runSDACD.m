@@ -10,13 +10,13 @@ end
 
 %% 
 Om = eye(p);
-
-gam = 10^(-1);
+gam = 10^(-5);
+%gam = 10^(-1);
 %lam = 10^(-5);
 lam = gam
 
-q = 1;
+q = 5;
 maxits = 100;
 tol = 10^(-6);
 
-[B, Q] = SDACD(b0, Y, X, Om, gam, lam, q, maxits, tol);
+[B, Q, Beta] = SDACD(b0, Y, X, Om, gam, lam, q, maxits, tol);
