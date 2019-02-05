@@ -10,13 +10,28 @@ end
 
 %% 
 Om = eye(p);
-
-gam = 10^(-1);
+gam = 10^(-5);
+%gam = 10^(-1);
 %lam = 10^(-5);
 lam = gam
 
-q = 1;
+q = 3;
 maxits = 100;
 tol = 10^(-6);
 
 [B, Q] = SDACD(b0, Y, X, Om, gam, lam, q, maxits, tol);
+
+% Initialize.
+K=4;
+classMeans = zeros(p,K);
+
+for i=1:K    
+    % Extract training observations in class i.
+    class_obs=X(classes==labels(i),:); 
+    
+    %Get the number of obs in that class (the number of rows)
+    ni=size(class_obs,1);
+    
+    %Compute within-class mean
+    classMeans(:,i)=mean(class_obs);
+end

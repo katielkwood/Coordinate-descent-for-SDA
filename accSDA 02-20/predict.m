@@ -1,4 +1,4 @@
-function [stats,preds,proj,cent]=test_ZVD_V1(w,test,classMeans)
+function [stats,preds,proj,cent]=predict(w, test, classMeans)
 %w: matrix with columns are disrciminant vectors
 %test:test data
 %ClassMeans: means of each class in the training data: R'
@@ -16,7 +16,7 @@ K=length(unique(test_labels));
 %Project the test data to the lower dimensional space by ZVDs
 proj=w'*test_obs';
 %Compute the centroids and projected distances
-cent=w*classMeans; %took off the transpose on w to see if the dimensions would work
+cent=w'*classMeans;
 %Compute the distances to the centroid for test data, i.e the distance of
 %every projected point to every cent:
 dist=zeros(N,K);

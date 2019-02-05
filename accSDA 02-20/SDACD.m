@@ -92,10 +92,10 @@ for j = 1:q
        Z = (1 - 2*alpha*gam)*Beta(i) + 2*alpha*(X(:,i)'*Y*theta - X(:,i)'*X*Beta);
        Beta(i) = sign(Z).*max(abs(Z) - alpha*lam, 0);
     end
-    Beta
+    Beta;
 
     b_old = Beta;
-    normBeta = norm(Beta)
+    normBeta = norm(Beta);
     
     % Update theta using the projected solution.
     if norm(Beta) > 1e-15  %Why do we want the norm of Beta to be 0 for Beta to be correct? Because we want it to be sparse?
@@ -104,8 +104,8 @@ for j = 1:q
         y = R'\b;
         z = R\y;
         tt = Mj(z);
-        t_old = theta
-        theta = tt/sqrt(tt'*D*tt)
+        t_old = theta;
+        theta = tt/sqrt(tt'*D*tt);
             
         % Update changes.
         db = norm(Beta-b_old)/norm(Beta);
