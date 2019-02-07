@@ -13,18 +13,32 @@ Om = eye(p);
 gam = 10^(-5);
 %gam = 10^(-1);
 %lam = 10^(-5);
-lam = gam
+lam = gam;
+mu = 10^(-5);
 
 q = 3;
 maxits = 100;
-tol = 10^(-6);
+Tol = 10^(-6);
 
-[B, Q] = SDACD(b0, Y, X, Om, gam, lam, q, maxits, tol);
+%tol = struct('abs', 1e-4, 'rel', 1e-4);
+tol.abs = 1e-4;
+tol.rel = 1e-4;
+
+PGsteps = 100;
+PGtol = 10^(-6);
+
+[B_CD, Q_CD] = SDACD(b0, Y, X, Om, gam, lam, q, maxits, Tol);
+%[B, Q] = SDAD(X, Y, Om, gam, lam, mu, q, PGsteps, PGtol, maxits, tol);
+[B_AP,Q_AP] = SDAAP(X, Y, Om, gam, lam, q, PGsteps, PGtol, maxits, Tol);
 
 % Initialize.
 K=4;
 classMeans = zeros(p,K);
 
+classes = train(:,1);
+labels = unique(classes);
+
+%%
 for i=1:K    
     % Extract training observations in class i.
     class_obs=X(classes==labels(i),:); 
@@ -35,3 +49,6 @@ for i=1:K
     %Compute within-class mean
     classMeans(:,i)=mean(class_obs);
 end
+
+[statsCD,predsCD,projCD,centCD] = predict(B_CD, test, classMeans);
+[statsAP,predsAP,projAP,centAP] = predict(B_AP, test, classMeans);

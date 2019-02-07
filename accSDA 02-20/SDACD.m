@@ -48,7 +48,7 @@ R = chol(D); % Cholesky factorization of D.
 % Alpha. Change later.
 %-------------------------------------------------------------------
 A = X'*X;
-alpha = 1/norm(A)
+alpha = 1/norm(A);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Outer loop.
