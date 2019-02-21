@@ -37,7 +37,7 @@ Q = ones(K,q);
 B = zeros(p, q);
 Beta = b0;
 
-A = 2*(X'*X + gam*Om); %Why do I have A here?
+A = 2*(X'*X + gam*Om); 
 %-------------------------------------------------------------------
 % Matrices for theta update.
 %-------------------------------------------------------------------
@@ -47,9 +47,9 @@ R = chol(D); % Cholesky factorization of D.
 %-------------------------------------------------------------------
 % Alpha. Change later.
 %-------------------------------------------------------------------
-A = X'*X;
-alpha = 1/norm(A);
-
+%A = X'*X;
+%alpha = 1/norm(A);
+alpha = 1;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Outer loop.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -86,13 +86,24 @@ for j = 1:q
     
     for i = 1:p
         
-       % Maybe I just need to update one coordinate then update theta and calculate the error.     
-
-       alpha = 1/norm(A);
-       Z = (1 - 2*alpha*gam)*Beta(i) + 2*alpha*(X(:,i)'*Y*theta - X(:,i)'*X*Beta);
-       Beta(i) = sign(Z).*max(abs(Z) - alpha*lam, 0);
+       % Maybe I just need to update one coordinate then update theta and calculate the error.    
+       
+       %based on CD derivation
+       %Z = (1 - 2*alpha*gam)*Beta(i) + 2*alpha*(X(:,i)'*Y*theta - X(:,i)'*X*Beta);
+       %Beta(i) = sign(Z)*max(abs(Z) - alpha*lam, 0);
+       
+       %guess from using GLM paper
+       if j > 1 
+           Z = 2*alpha*(X(:,i)'*Y*theta - X(:,i)'*Y*Q(:,j-1));
+       else
+          Z = 2*alpha*(X(:,i)'*Y*theta - X(:,i)'*);
+       end
+       Beta(i) = (sign(Z).*max(abs(Z) - alpha*lam, 0))/(1 + 2*gam);
+        
+       %mix of GLM and derivation
+       %Z = 2*alpha*(X(:,i)'*Y*theta - X(:,i)'*X*Beta);
+       %Beta(i) = (sign(Z)*max(abs(Z) - alpha*lam, 0))/(1 + 2*gam);
     end
-    Beta;
 
     b_old = Beta;
     normBeta = norm(Beta);

@@ -30,7 +30,7 @@ PGtol = 10^(-6);
 tic
 [B_CD, Q_CD] = SDACD(b0, Y, X, Om, gam, lam, q, maxits, Tol);
 CDtime = toc
-[B, Q] = SDAD(X, Y, Om, gam, lam, mu, q, PGsteps, PGtol, maxits, tol);
+%[B, Q] = SDAD(X, Y, Om, gam, lam, mu, q, PGsteps, PGtol, maxits, tol);
 tic
 [B_AP,Q_AP] = SDAAP(X, Y, Om, gam, lam, q, PGsteps, PGtol, maxits, Tol);
 APtime = toc
