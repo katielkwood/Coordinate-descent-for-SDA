@@ -152,6 +152,199 @@
 
 \begin{document}
 
+\title[]{Coordinate Descent for SDA}
+\maketitle
+
+\begin{equation*}
+\underset{x}{\text{min}}\ h(x) := f(x) + \lambda \Omega (x) 
+\end{equation*}
+
+f is smooth,  $\Omega$ is a regularization function that may be nonsmooth.\\
+
+Alg. 2 update step:
+\begin{equation*}
+\begin{split}
+z_{i_k}^k &\leftarrow \underset{\chi}{\text{argmin}} (\chi - x_{i_k}^k)^T[\nabla f(x^k)]_{i_k} + \frac{1}{2 \alpha _k} \| \chi - x_{i_k}^k \|_2 ^2 + \lambda \Omega_i(x) \ \text{ for some } \alpha _k > 0 \\
+x^{k+1} &\leftarrow x^k + (z_{i_k}^k - x_{i_k}^k) e_{i_k}
+\end{split}
+\end{equation*}
+
+\hfill \\
+
+For our problem: \\ 
+$f(\beta) = \|Y \theta^{t+1} - X \beta \|^2 + \gamma \|\beta\|^2 \ $ with $\Omega = I \ $ where $ \| \| = \|  \|_2$\\
+$\Omega(\beta) = \|\beta\|_1 \Rightarrow \Omega_i(\beta_i) = |\beta_i|$\\
+
+Assume we already have $\beta^t$. We need to find $\beta^{t+1}$. Then the update step for our problem is 
+
+\begin{equation*}
+\begin{split}
+z_{i_t}^t &\leftarrow \underset{\chi}{\text{argmin }} \chi [\nabla 				f(\beta^t)]_{i_t} - \beta_{i_t}^t [\nabla f(\beta^t)]_{i_t} + \frac{1}		{2 \alpha _t} \| \chi - \beta_{i_t}^t \|_2 ^2 + \lambda |\chi| \\
+\beta^{t+1} &\leftarrow \beta^t + (z_{i_t}^t - \beta_{i_t}^t) e_{i_t} \\
+\end{split}
+\end{equation*}
+
+\hfill \\
+That is, we want to minimize 
+\begin{equation*}
+\begin{split}
+& \chi [\nabla f(\beta^t)]_{i_t} - \beta_{i_t}^t [\nabla f(\beta^t)]_{i_t} + \frac{1}{2 \alpha _t} | \chi - \beta_{i_t}^t | | \chi - \beta_{i_t}^t | + \lambda | \chi |\\
+\Rightarrow & \chi [\nabla f(\beta^t)]_{i_t} - \beta_{i_t}^t [\nabla f(\beta^t)]_{i_t} + \frac{1}{2 \alpha _t} (\chi ^2 - 2 \chi \beta_{i_t}^t + (\beta_{i_t}^t)^2) + \lambda | \chi |.\\
+\end{split}
+\end{equation*}
+
+Note that $\chi [\nabla f(\beta^t)]_{i_t} - \beta_{i_t}^t [\nabla f(\beta^t)]_{i_t} + \frac{1}{2 \alpha _t} (\chi ^2 - 2 \chi \beta_{i_t}^t + (\beta_{i_t}^t)^2)$ is a quadratic with respect to $\chi$. So the minimum is found where the gradient with respect to $\chi$ is 0. But since we have the $\lambda |\chi|$ term, we must also take the subgradient of the absolute value which will give us an interval that includes 0.
+
+\begin{equation*}
+\Rightarrow 0 \in [\nabla f(\beta^t)]_{i_t} + \frac{1}{\alpha_t	} \chi - \frac{1}{\alpha_t} \beta_{i_t}^t + \partial \lambda | \chi |
+\end{equation*}
+
+Say $\chi ^*$ is the optimal solution. We have three cases.
+
+\begin{equation*}
+\begin{split}
+\chi ^* > 0 &\Rightarrow [\nabla f(\beta^t)]_{i_t} + \frac{1}{\alpha_t	} \chi ^* - \frac{1}{\alpha_t} \beta_{i_t}^t + \lambda = 0 \\
+			&\Rightarrow \chi ^* = \beta_{i_t}^t - \alpha_t [\nabla f(\beta^t)]_{i_t} - \alpha_t \lambda\\
+\chi ^* < 0 &\Rightarrow [\nabla f(\beta^t)]_{i_t} + \frac{1}{\alpha_t	} \chi ^* - \frac{1}{\alpha_t} \beta_{i_t}^t - \lambda = 0 \\
+			&\Rightarrow \chi ^* = \beta_{i_t}^t - \alpha_t [\nabla f(\beta^t)]_{i_t} + \alpha_t \lambda\\
+\chi ^* = 0 &\Rightarrow 0 \in [\nabla f(\beta^t)]_{i_t} - \frac{1}{\alpha_t} (0) - \frac{1}{\alpha_t} \beta_{i_t}^t + \lambda [-1,1] \\
+			&\Rightarrow - \lambda + [\nabla f(\beta^t)]_{i_t} - \frac{1}{\alpha_t} \beta_{i_t}^t \leq 0 \leq \lambda + [\nabla f(\beta^t)]_{i_t} - \frac{1}{\alpha_t} \beta_{i_t}^t \\
+			&\Rightarrow -[\nabla f(\beta^t)]_{i_t} + \frac{1}{\alpha_t} \beta_{i_t}^t \in [-\lambda, \lambda] \\
+			&\Rightarrow |\beta_{i_t}^t - \alpha_t [\nabla f(\beta^t)]_{i_t} |  \leq \alpha_t \lambda \\
+\end{split}
+\end{equation*}
+
+Say $D = \beta_{i_t}^t - \alpha_t [\nabla f(\beta^t)]_{i_t}$. Then the optimal solution for our update step is 
+
+\begin{equation*}
+z_{i_t}^t = \left\{
+			\begin{array}{ll}
+				0 & \quad |D| \leq \alpha_t \lambda \\
+				D - \alpha_t \lambda & \quad D > 0 \text{ and } |D| > \alpha_t \lambda \\
+				D + \alpha_t \lambda & \quad D < 0 \text{ and } |D| > \alpha_t \lambda
+			\end{array}
+			\right.
+\end{equation*}
+which is the soft-thresholding operator $S(D, \alpha_t \lambda)$.
+
+\hfill \\
+Now to calculate $\beta^{t+1}$ we need $z_{i_t}^t - \beta_{i_t}^t$.\\
+
+\begin{equation*}
+z_{i_t}^t - \beta_{i_t}^t = \left\{
+			\begin{array}{ll}
+				0 - \beta_{i_t}^t  & \quad |D| \leq \alpha_t \lambda \\
+				D - \alpha_t \lambda - \beta_{i_t}^t & \quad D > 0 
+				\text{ and } |D| > \alpha_t \lambda \\
+				D + \alpha_t \lambda - \beta_{i_t}^t & \quad D < 0 
+				\text{ and } |D| > \alpha_t \lambda
+			\end{array}
+			\right.
+\end{equation*}
+
+\begin{equation*}
+D - \alpha_t \lambda - \beta_{i_t}^t = \beta_{i_t}^t - \alpha_t [\nabla f(\beta^t)]_{i_t} - \alpha_t \lambda - \beta_{i_t}^t = -\alpha_t [\nabla f(\beta^t)]_{i_t} - \alpha_t \lambda
+\end{equation*}
+
+\begin{equation*}
+D + \alpha_t \lambda - \beta_{i_t}^t = \beta_{i_t}^t - \alpha_t [\nabla f(\beta^t)]_{i_t} + \alpha_t \lambda - \beta_{i_t}^t = -\alpha_t [\nabla f(\beta^t)]_{i_t} + \alpha_t \lambda
+\end{equation*}
+
+\begin{equation*}
+\Rightarrow z_{i_t}^t - \beta_{i_t}^t = \left\{
+			\begin{array}{ll}
+				- \beta_{i_t}^t  & \quad |D| \leq \alpha_t \lambda \\
+				- \alpha_t [\nabla f(\beta^t)]_{i_t} - \alpha_t \lambda
+				 & \quad D > 0 \text{ and } |D| > \alpha_t \lambda \\
+				- \alpha_t [\nabla f(\beta^t)]_{i_t} + \alpha_t \lambda 
+				& \quad D < 0 \text{ and } |D| > \alpha_t \lambda
+			\end{array}
+			\right.
+\end{equation*}
+\hfill \\
+To calculate $[\nabla f(\beta^t)]_{i_t}$ we see that 
+
+\begin{equation*}
+\begin{split}
+f(\beta^t) &= (Y \theta^{t+1} - X \beta^t)^T (Y \theta^{t+1} - X \beta^t) + \gamma(\beta^t)^T (\beta^t)\\
+           &= (\theta^{t+1})^T Y^T Y \theta^{t+1} - (\theta^{t+1})^T Y^T X \beta^t - (\beta^t)^T X^T Y \theta^{t+1} + (\beta^t)^T X^T X \beta^t + \gamma(\beta^t)^T (\beta^t)\\
+           &= (\theta^{t+1})^T Y^T Y \theta^{t+1} - 2(\beta^t)^T X^T Y \theta^{t+1} + (\beta^t)^T X^T X \beta^t + \gamma(\beta^t)^T (\beta^t)\\
+[\nabla f(\beta^t)]_{i_t} &= [-2 X^T Y \theta^{t+1} + 2 X^T X \beta^t + 2 \gamma \beta^t]_{i_t}
+\end{split}
+\end{equation*}
+
+\hfill \\
+To find the $i_t$ component of $[\nabla f(\beta^t)]_{i_t}$ we have
+
+$[2 \gamma \beta^t]_{i_t} = 2 \gamma \beta_{i_t}^t$\\
+
+$[2 X^T X \beta^t]_{i_t} = 2 (X_{i_t})^T X \beta^t$ where $X_{i_t}$ denotes the $i_t$ column of $X$\\
+
+$[-2 X^T Y \theta^{t+1}]_{i_t} = -2 (X_{i_t})^T Y \theta^{t+1}$\\
+
+$\Rightarrow [\nabla f(\beta^t)]_{i_t} = -2 (X_{i_t})^T Y \theta^{t+1} + 2 (X_{i_t})^T X \beta^t + 2 \gamma \beta_{i_t}^t$\\
+
+\hfill \\
+Plugging this into $-\alpha_t [\nabla f(\beta^t)]_{i_t} \pm \alpha_t \lambda$ and $D$ we get
+
+\begin{equation*}
+\begin{split}
+-\alpha_t [\nabla f(\beta^t)]_{i_t} \pm \alpha_t \lambda &= 
+		2 \alpha_t (X_{i_t})^T Y \theta^{t+1} - 2 \alpha_t (X_{i_t})^T 
+		X\beta^t - 2 \alpha_t\gamma\beta_{i_t}^t \pm \alpha_t \lambda\\
+D = \beta_{i_t}^t - \alpha_t [\nabla f(\beta^t)]_{i_t} &= 
+		\beta_{i_t}^t + 2 \alpha_t (X_{i_t})^T Y \theta^{t+1} 
+		- 2 \alpha_t (X_{i_t})^T X \beta^t - 2 \alpha_t\gamma \beta_{i_t}^t			\\
+\end{split}
+\end{equation*}
+
+Recall that after we calculate $z_{i_t}^t$ we calculate $\beta^{t+1}$ by
+$\beta^{t+1} \leftarrow \beta^t + (z_{i_t}^t - \beta_{i_t}^t) e_{i_t}$. So only the $i_t$ component of $\beta^{t+1}$ is update. Therefore, the coordinate update for $\beta^{t+1}$ is 
+
+\begin{equation*}
+\begin{split}
+\beta_{i_t}^{t+1} &= \beta_{i_t}^t + z_{i_t}^t - \beta_{i_t}^t \\
+		&= \left\{
+		\begin{array}{ll}
+				\beta_{i_t}^t - \beta_{i_t}^t  & \quad |D| \leq 
+				\alpha_t \lambda \\
+				\beta_{i_t}^t + 2 \alpha_t (X_{i_t})^T Y \theta^{t+1} 
+				- 2 \alpha_t (X_{i_t})^T X\beta^t - 2 \alpha_t 
+				\gamma\beta_{i_t}^t - \alpha_t \lambda
+				 & \quad D > 0 \text{ and } |D| > \alpha_t \lambda \\
+				\beta_{i_t}^t + 2 \alpha_t (X_{i_t})^T Y \theta^{t+1} 
+				- 2 \alpha_t (X_{i_t})^T X\beta^t - 2 \alpha_t 
+				\gamma\beta_{i_t}^t + \alpha_t \lambda
+				& \quad D < 0 \text{ and } |D| > \alpha_t \lambda
+			\end{array}
+			\right. \\
+		&= \left\{
+		\begin{array}{ll}
+				0  & \quad |D| \leq \alpha_t \lambda \\
+				(1-2 \alpha_t \gamma)\beta_{i_t}^t + 2 \alpha_t 
+				(X_{i_t})^T Y \theta^{t+1} - 2 \alpha_t (X_{i_t})^T 
+				X\beta^t - \alpha_t \lambda
+				 & \quad D > 0 \text{ and } |D| > \alpha_t \lambda \\
+				(1-2 \alpha_t \gamma)\beta_{i_t}^t + 2 \alpha_t 
+				(X_{i_t})^T Y \theta^{t+1} - 2 \alpha_t (X_{i_t})^T 
+				X\beta^t + \alpha_t \lambda
+				& \quad D < 0 \text{ and } |D| > \alpha_t \lambda
+			\end{array}
+			\right. \\	
+		&= S(D, \alpha_t \lambda)		
+\end{split}
+\end{equation*}
+where $D = (1-2 \alpha_t \gamma)\beta_{i_t}^t + 2 \alpha_t (X_{i_t})^T Y \theta^{t+1} - 2 \alpha_t (X_{i_t})^T X\beta^t$
+
 
 
 \end{document}
+
+$$
+f(x) = \left\{
+        \begin{array}{ll}
+            -x & \quad x \leq 0 \\
+            x & \quad x > 0
+        \end{array}
+    \right.
+$$
