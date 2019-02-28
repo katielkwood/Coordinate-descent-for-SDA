@@ -59,10 +59,9 @@ SDACDits = 1;
 db = 1;
 dt = 1;
 for j = 1:q
-    while max(db, dt) > tol
-    %+++++++++++++++++++++++++++++++++++++++++++++++++++++
-    % Initialization.
-    %+++++++++++++++++++++++++++++++++++++++++++++++++++++
+     %+++++++++++++++++++++++++++++++++++++++++++++++++++++
+     % Initialization.
+     %+++++++++++++++++++++++++++++++++++++++++++++++++++++
     
     % Compute Qj (K by j, first j-1 scoring vectors, all-ones last col).
     Qj = Q(:, 1:j);
@@ -80,8 +79,32 @@ for j = 1:q
    
     % Initialize coefficient vector for elastic net step.
     d = 2*X'*(Y*theta);  %line 199 in Ames paper
-
+                        %should this be negative?
     
+
+    while max(db, dt) > tol
+%     %+++++++++++++++++++++++++++++++++++++++++++++++++++++
+%     % Initialization.
+%     %+++++++++++++++++++++++++++++++++++++++++++++++++++++
+%     
+%     % Compute Qj (K by j, first j-1 scoring vectors, all-ones last col).
+%     Qj = Q(:, 1:j);
+%     
+%     % Precompute Mj = I - Qj*Qj'*D.
+%     Mj = @(u) u - Qj*(Qj'*D*u);
+%     
+%     %compute D^-1*Y^T*X*Beta
+%     y = R'\(Y'*X*Beta);
+%     z = R\y;
+%     
+%     % Initialize theta.
+%     theta = Mj(z); 
+%     theta = theta/sqrt(theta'*D*theta);
+%    
+%     % Initialize coefficient vector for elastic net step.
+%     d = 2*X'*(Y*theta);  %line 199 in Ames paper
+%                         %should this be negative?
+%     
     %+++++++++++++++++++++++++++++++++++++++++++++++++++++
     % Coordinate descent method for updating (theta, Beta)
     %+++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -113,7 +136,7 @@ for j = 1:q
     normBeta = norm(Beta)
     
     % Update theta using the projected solution.
-    if norm(Beta) > 1e-15  
+    %if norm(Beta) > 1e-15  
         % update theta using cholesky factorization of D
         b = Y'*(X*Beta);
         y = R'\b;
@@ -133,7 +156,7 @@ for j = 1:q
         % Update change.
         %db = 0;
         %dt = 0;
-    end;        
+   % end;        
         
         
     % Check convergence.

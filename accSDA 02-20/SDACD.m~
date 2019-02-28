@@ -55,31 +55,56 @@ alpha = 1;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % For j=1,2,..., q compute the SDA pair (theta_j, Beta_j).
-its = 1;
+SDACDits = 1;
+db = 1;
+dt = 1;
 for j = 1:q
-    while max(db, dt) < tol
-    %+++++++++++++++++++++++++++++++++++++++++++++++++++++
-    % Initialization.
-    %+++++++++++++++++++++++++++++++++++++++++++++++++++++
-    
-    % Compute Qj (K by j, first j-1 scoring vectors, all-ones last col).
-    Qj = Q(:, 1:j);
-    
-    % Precompute Mj = I - Qj*Qj'*D.
-    Mj = @(u) u - Qj*(Qj'*D*u);
-    
-    %compute D^-1*Y^T*X*Beta
-    y = R'\(Y'*X*Beta);
-    z = R\y;
-    
-    % Initialize theta.
-    theta = Mj(z); 
-    theta = theta/sqrt(theta'*D*theta);
-   
-    % Initialize coefficient vector for elastic net step.
-    d = 2*X'*(Y*theta);  %line 199 in Ames paper
+    %     %+++++++++++++++++++++++++++++++++++++++++++++++++++++
+%     % Initialization.
+%     %+++++++++++++++++++++++++++++++++++++++++++++++++++++
+%     
+%     % Compute Qj (K by j, first j-1 scoring vectors, all-ones last col).
+%     Qj = Q(:, 1:j);
+%     
+%     % Precompute Mj = I - Qj*Qj'*D.
+%     Mj = @(u) u - Qj*(Qj'*D*u);
+%     
+%     %compute D^-1*Y^T*X*Beta
+%     y = R'\(Y'*X*Beta);
+%     z = R\y;
+%     
+%     % Initialize theta.
+%     theta = Mj(z); 
+%     theta = theta/sqrt(theta'*D*theta);
+%    
+%     % Initialize coefficient vector for elastic net step.
+%     d = 2*X'*(Y*theta);  %line 199 in Ames paper
+%                         %should this be negative?
+%     
 
-    
+    while max(db, dt) > tol
+%     %+++++++++++++++++++++++++++++++++++++++++++++++++++++
+%     % Initialization.
+%     %+++++++++++++++++++++++++++++++++++++++++++++++++++++
+%     
+%     % Compute Qj (K by j, first j-1 scoring vectors, all-ones last col).
+%     Qj = Q(:, 1:j);
+%     
+%     % Precompute Mj = I - Qj*Qj'*D.
+%     Mj = @(u) u - Qj*(Qj'*D*u);
+%     
+%     %compute D^-1*Y^T*X*Beta
+%     y = R'\(Y'*X*Beta);
+%     z = R\y;
+%     
+%     % Initialize theta.
+%     theta = Mj(z); 
+%     theta = theta/sqrt(theta'*D*theta);
+%    
+%     % Initialize coefficient vector for elastic net step.
+%     d = 2*X'*(Y*theta);  %line 199 in Ames paper
+%                         %should this be negative?
+%     
     %+++++++++++++++++++++++++++++++++++++++++++++++++++++
     % Coordinate descent method for updating (theta, Beta)
     %+++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -135,18 +160,21 @@ for j = 1:q
         
         
     % Check convergence.
-    if max(db, dt) < tol
-        % Converged.
-        fprintf('converged  in %g iterations \n', its);
-        B(:,j) = Beta;
-        break
-    end
+%     if max(db, dt) < tol
+%         % Converged.
+%         fprintf('converged  in %g iterations \n', SDACDits);
+%         B(:,j) = Beta;
+%         break
+%     end
     
+    SDACDits = SDACDits + 1; 
+    end
     % Update Q and B.
     Q(:,j) = theta;
     B(:,j) = Beta;
     
-    its = its + 1; 
-    end
+    
+ 
 end
+SDACDits
 end
