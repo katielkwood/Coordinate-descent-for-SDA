@@ -55,10 +55,11 @@ alpha = 1;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % For j=1,2,..., q compute the SDA pair (theta_j, Beta_j).
-SDACDits = 1;
 db = 1;
 dt = 1;
 for j = 1:q
+    SDACDits = 0;
+
      %+++++++++++++++++++++++++++++++++++++++++++++++++++++
      % Initialization.
      %+++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -172,9 +173,9 @@ for j = 1:q
     % Update Q and B.
     Q(:,j) = theta;
     B(:,j) = Beta;
-    
+    SDACDits
     
  
 end
-SDACDits
+
 end

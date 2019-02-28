@@ -4,12 +4,12 @@ Db = 1;
 b_old = b0;
 Beta = b0;
 betaIts = 0;
-while Db > tol && betaIts < maxits
+while (Db > tol && betaIts < maxits)
+    
+    b_old = Beta;
     
     for i = 1:length(Beta)
-        
-        % Maybe I just need to update one coordinate then update theta and calculate the error.    
-       
+               
         %based on CD derivation
         %Z = (1 - 2*alpha*gam)*Beta(i) + 2*alpha*(X(:,i)'*Y*theta - X(:,i)'*X*Beta);
         %Beta(i) = sign(Z)*max(abs(Z) - alpha*lam, 0);
