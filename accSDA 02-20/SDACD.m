@@ -55,9 +55,11 @@ alpha = 1;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % For j=1,2,..., q compute the SDA pair (theta_j, Beta_j).
-its = 1;
+SDACDits = 1;
+db = 1;
+dt = 1;
 for j = 1:q
-    
+    while max(db, dt) > tol
     %+++++++++++++++++++++++++++++++++++++++++++++++++++++
     % Initialization.
     %+++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -85,32 +87,33 @@ for j = 1:q
     %+++++++++++++++++++++++++++++++++++++++++++++++++++++
      b_old = Beta;
     
-    for i = 1:p
-        
-       % Maybe I just need to update one coordinate then update theta and calculate the error.    
-       
-       %based on CD derivation
-       %Z = (1 - 2*alpha*gam)*Beta(i) + 2*alpha*(X(:,i)'*Y*theta - X(:,i)'*X*Beta);
-       %Beta(i) = sign(Z)*max(abs(Z) - alpha*lam, 0);
-       
-       %guess from using GLM paper
-       if j > 1 
-           Z = 2*alpha*(X(:,i)'*Y*theta - X(:,i)'*Y*Q(:,j-1));
-       else
-          Z = 2*alpha*(X(:,i)'*Y*theta - X(:,i)'*Y*Q(:,j));
-       end
-       Beta(i) = (sign(Z).*max(abs(Z) - alpha*lam, 0))/(1 + 2*gam);
-        
-       %mix of GLM and derivation
-       %Z = 2*alpha*(X(:,i)'*Y*theta - X(:,i)'*X*Beta);
-       %Beta(i) = (sign(Z)*max(abs(Z) - alpha*lam, 0))/(1 + 2*gam);
-    end
-
-   
-    normBeta = norm(Beta);
+%     for i = 1:p
+%         
+%        % Maybe I just need to update one coordinate then update theta and calculate the error.    
+%        
+%        %based on CD derivation
+%        %Z = (1 - 2*alpha*gam)*Beta(i) + 2*alpha*(X(:,i)'*Y*theta - X(:,i)'*X*Beta);
+%        %Beta(i) = sign(Z)*max(abs(Z) - alpha*lam, 0);
+%        
+%        %guess from using GLM paper
+%        if j > 1 
+%            Z = 2*alpha*(X(:,i)'*Y*theta - X(:,i)'*Y*Q(:,j-1));
+%        else
+%           Z = 2*alpha*(X(:,i)'*Y*theta - X(:,i)'*Y*Q(:,j));
+%        end
+%        Beta(i) = (sign(Z).*max(abs(Z) - alpha*lam, 0))/(1 + 2*gam);
+%         
+%        %mix of GLM and derivation
+%        %Z = 2*alpha*(X(:,i)'*Y*theta - X(:,i)'*X*Beta);
+%        %Beta(i) = (sign(Z)*max(abs(Z) - alpha*lam, 0))/(1 + 2*gam);
+%     end
+    
+    Beta = betaCoordDesc(Beta, j, alpha, X, Y, theta, Q, Om, lam, gam, 10, 10^(-3));
+    
+    normBeta = norm(Beta)
     
     % Update theta using the projected solution.
-    if norm(Beta) > 1e-15  %Why do we want the norm of Beta to be 0 for Beta to be correct? Because we want it to be sparse?
+    if norm(Beta) > 1e-15  
         % update theta using cholesky factorization of D
         b = Y'*(X*Beta);
         y = R'\b;
@@ -134,17 +137,21 @@ for j = 1:q
         
         
     % Check convergence.
-    if max(db, dt) < tol
-        % Converged.
-        fprintf('converged  in %g iterations \n', its);
-        B(:,j) = Beta;
-        break
-    end
+%     if max(db, dt) < tol
+%         % Converged.
+%         fprintf('converged  in %g iterations \n', SDACDits);
+%         B(:,j) = Beta;
+%         break
+%     end
     
+    SDACDits = SDACDits + 1; 
+    end
     % Update Q and B.
     Q(:,j) = theta;
     B(:,j) = Beta;
     
-    its = its + 1;   
+    
+ 
 end
+SDACDits
 end
