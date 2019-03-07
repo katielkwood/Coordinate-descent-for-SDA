@@ -1,5 +1,5 @@
 [n, p1] = size(train);
-b0 = ones(p1 - 1,1);
+b0 = zeros(p1 - 1,1);
 X=train(:,2:p1);
 [n, p] = size(X);
 Y=zeros(n,2);
@@ -61,6 +61,3 @@ end
 %check constraints
 normalizedConstr = Q_CD'*Y'*Y*Q_CD
 
-for l = 1:(K-1)
-    orthogConstr = Q_CD'*Y'*Y*Q_CD(:,l)
-end

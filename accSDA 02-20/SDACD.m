@@ -75,15 +75,15 @@ for j = 1:q
     z = R\y;
     
     % Initialize theta.
-    theta = Mj(z); 
-    theta = theta/sqrt(theta'*D*theta);
+    theta = Mj(rand(K,1)); 
+    theta = theta/sqrt(theta'*D*theta)
    
     % Initialize coefficient vector for elastic net step.
     d = 2*X'*(Y*theta);  %line 199 in Ames paper
                         %should this be negative?
     
 
-    while max(db, dt) > tol
+    while (max(db, dt) > tol && SDACDits < 100)
 
         %+++++++++++++++++++++++++++++++++++++++++++++++++++++
         % Coordinate descent method for updating (theta, Beta)
@@ -110,7 +110,10 @@ for j = 1:q
     
         SDACDits = SDACDits + 1; 
     end
-    
+    if SDACDits == 100 
+        fprintf('Algorithm did not converge')
+        break
+    end
     % Update Q and B.
     Q(:,j) = theta;
     B(:,j) = Beta;
