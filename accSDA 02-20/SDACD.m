@@ -84,61 +84,18 @@ for j = 1:q
     
 
     while max(db, dt) > tol
-%     %+++++++++++++++++++++++++++++++++++++++++++++++++++++
-%     % Initialization.
-%     %+++++++++++++++++++++++++++++++++++++++++++++++++++++
-%     
-%     % Compute Qj (K by j, first j-1 scoring vectors, all-ones last col).
-%     Qj = Q(:, 1:j);
-%     
-%     % Precompute Mj = I - Qj*Qj'*D.
-%     Mj = @(u) u - Qj*(Qj'*D*u);
-%     
-%     %compute D^-1*Y^T*X*Beta
-%     y = R'\(Y'*X*Beta);
-%     z = R\y;
-%     
-%     % Initialize theta.
-%     theta = Mj(z); 
-%     theta = theta/sqrt(theta'*D*theta);
-%    
-%     % Initialize coefficient vector for elastic net step.
-%     d = 2*X'*(Y*theta);  %line 199 in Ames paper
-%                         %should this be negative?
-%     
-    %+++++++++++++++++++++++++++++++++++++++++++++++++++++
-    % Coordinate descent method for updating (theta, Beta)
-    %+++++++++++++++++++++++++++++++++++++++++++++++++++++
-     b_old = Beta;
+
+        %+++++++++++++++++++++++++++++++++++++++++++++++++++++
+        % Coordinate descent method for updating (theta, Beta)
+        %+++++++++++++++++++++++++++++++++++++++++++++++++++++
+        b_old = Beta;
     
-%     for i = 1:p
-%         
-%        % Maybe I just need to update one coordinate then update theta and calculate the error.    
-%        
-%        %based on CD derivation
-%        %Z = (1 - 2*alpha*gam)*Beta(i) + 2*alpha*(X(:,i)'*Y*theta - X(:,i)'*X*Beta);
-%        %Beta(i) = sign(Z)*max(abs(Z) - alpha*lam, 0);
-%        
-%        %guess from using GLM paper
-%        if j > 1 
-%            Z = 2*alpha*(X(:,i)'*Y*theta - X(:,i)'*Y*Q(:,j-1));
-%        else
-%           Z = 2*alpha*(X(:,i)'*Y*theta - X(:,i)'*Y*Q(:,j));
-%        end
-%        Beta(i) = (sign(Z).*max(abs(Z) - alpha*lam, 0))/(1 + 2*gam);
-%         
-%        %mix of GLM and derivation
-%        %Z = 2*alpha*(X(:,i)'*Y*theta - X(:,i)'*X*Beta);
-%        %Beta(i) = (sign(Z)*max(abs(Z) - alpha*lam, 0))/(1 + 2*gam);
-%     end
+        Beta = betaCoordDesc(Beta, j, alpha, X, Y, theta, Q, Om, lam, gam, 10, 10^(-3));
     
-    Beta = betaCoordDesc(Beta, j, alpha, X, Y, theta, Q, Om, lam, gam, 10, 10^(-3));
+        normBeta = norm(Beta)
     
-    normBeta = norm(Beta)
+        % Update theta using the projected solution.
     
-    % Update theta using the projected solution.
-    %if norm(Beta) > 1e-15  
-        % update theta using cholesky factorization of D
         b = Y'*(X*Beta);
         y = R'\b;
         z = R\y;
@@ -149,27 +106,11 @@ for j = 1:q
         % Update changes.
         db = norm(Beta-b_old)/norm(Beta);
         dt = norm(theta-t_old)/norm(theta);
-            
-     %else
-        % Update b and theta.
-        %Beta = 0;
-        %theta = 0;
-        % Update change.
-        %db = 0;
-        %dt = 0;
-   % end;        
         
-        
-    % Check convergence.
-%     if max(db, dt) < tol
-%         % Converged.
-%         fprintf('converged  in %g iterations \n', SDACDits);
-%         B(:,j) = Beta;
-%         break
-%     end
     
-    SDACDits = SDACDits + 1; 
+        SDACDits = SDACDits + 1; 
     end
+    
     % Update Q and B.
     Q(:,j) = theta;
     B(:,j) = Beta;

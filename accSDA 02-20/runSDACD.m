@@ -57,3 +57,10 @@ end
 [statsCD,predsCD,projCD,centCD] = predict(B_CD, test, classMeans);
 
 [statsAP,predsAP,projAP,centAP] = predict(B_AP, test, classMeans);
+
+%check constraints
+normalizedConstr = Q_CD'*Y'*Y*Q_CD
+
+for l = 1:(K-1)
+    orthogConstr = Q_CD'*Y'*Y*Q_CD(:,l)
+end

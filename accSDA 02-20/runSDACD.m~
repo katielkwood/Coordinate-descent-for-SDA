@@ -27,9 +27,13 @@ tol.rel = 1e-4;
 PGsteps = 100;
 PGtol = 10^(-6);
 
+tic
 [B_CD, Q_CD] = SDACD(b0, Y, X, Om, gam, lam, q, maxits, Tol);
+CDtime = toc
 %[B, Q] = SDAD(X, Y, Om, gam, lam, mu, q, PGsteps, PGtol, maxits, tol);
+tic
 [B_AP,Q_AP] = SDAAP(X, Y, Om, gam, lam, q, PGsteps, PGtol, maxits, Tol);
+APtime = toc
 
 % Initialize.
 K=4;
@@ -51,4 +55,9 @@ for i=1:K
 end
 
 [statsCD,predsCD,projCD,centCD] = predict(B_CD, test, classMeans);
+
 [statsAP,predsAP,projAP,centAP] = predict(B_AP, test, classMeans);
+
+%check constraints
+normalizedTheta =Q_CD'*Y'*Y*Q_CD
+
