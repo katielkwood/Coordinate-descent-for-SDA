@@ -30,8 +30,7 @@ while (Db > tol && betaIts < maxits)
         
         %Derivation from GLM paper
         Z = 2*X(:,i)'*(Y*theta - (X*Beta - Beta(i)*X(:,i)));
-        Beta(i) = (sign(Z).*max(abs(Z) - lam, 0))/(gam - 2*(n-1));
-        %Beta(i) = (sign(Z).*max(abs(Z) - lam, 0))/2*(gam + n-1);
+        Beta(i) = (sign(Z).*max(abs(Z) - lam, 0))/(2*(gam + n-1));
     end
     
     Db = norm(Beta-b_old)/norm(Beta);

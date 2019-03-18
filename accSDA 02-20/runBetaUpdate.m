@@ -3,24 +3,26 @@ b0 = zeros(p1 - 1,1);
 X=train(:,2:p1);
 [n, p] = size(X);
 
-K = 4;
+K=2;
 Y=zeros(n,K);
 labels=train(:,1);
 for i=1:n 
     Y(i, labels(i))=1;
 end
 
-%% 
+A = 2*(X'*X + gam*Om); 
 Om = eye(p);
 gam = 10^(-5);
-%gam = 10^(-1);
-%lam = 10^(-5);
 lam = gam;
 mu = 10^(-5);
 
-q = 3;
+q = 1;
+j = 1;
+alpha = 1;
 maxits = 100;
 Tol = 10^(-6);
+Q = ones(K,q);
+theta = [1;-1];
 
 %tol = struct('abs', 1e-4, 'rel', 1e-4);
 tol.abs = 1e-4;
@@ -29,15 +31,11 @@ tol.rel = 1e-4;
 PGsteps = 100;
 PGtol = 10^(-6);
 
-tic
-[B_CD, Q_CD] = SDACD(b0, Y, X, Om, gam, lam, q, maxits, Tol);
-CDtime = toc
-%[B, Q] = SDAD(X, Y, Om, gam, lam, mu, q, PGsteps, PGtol, maxits, tol);
-tic
-[B_AP,Q_AP] = SDAAP(X, Y, Om, gam, lam, q, PGsteps, PGtol, maxits, Tol);
-APtime = toc
+d = 2*X'*(Y*(theta/n));
 
-% Initialize.
+BetaCD = betaCoordDesc(b0, j, alpha, X, Y, theta, Q, Om, lam, gam, 10, 10^(-3));
+[BetaAP, ~] = prox_EN(A, d, b0, lam, alpha, PGsteps, PGtol);
+
 classMeans = zeros(p,K);
 
 classes = train(:,1);
@@ -55,10 +53,8 @@ for i=1:K
     classMeans(:,i)=mean(class_obs);
 end
 
-[statsCD,predsCD,projCD,centCD] = predict(B_CD, test, classMeans);
+[BstatsCD,BpredsCD,BprojCD,BcentCD] = predict(BetaCD, test, classMeans);
+[BstatsAP,BpredsAP,BprojAP,BcentAP] = predict(BetaAP, test, classMeans);
 
-[statsAP,predsAP,projAP,centAP] = predict(B_AP, test, classMeans);
-
-%check constraints
-normalizedConstr = Q_CD'*Y'*Y*Q_CD
-
+BstatsCD
+BstatsAP
