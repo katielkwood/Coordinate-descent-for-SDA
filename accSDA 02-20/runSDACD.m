@@ -3,7 +3,7 @@ b0 = zeros(p1 - 1,1);
 X=train(:,2:p1);
 [n, p] = size(X);
 
-K = 4;
+K = 2;
 Y=zeros(n,K);
 labels=train(:,1);
 for i=1:n 
@@ -18,8 +18,8 @@ gam = 10^(-5);
 lam = gam;
 mu = 10^(-5);
 
-q = 3;
-maxits = 100;
+q = 1;
+maxits = 1000;
 Tol = 10^(-6);
 
 %tol = struct('abs', 1e-4, 'rel', 1e-4);

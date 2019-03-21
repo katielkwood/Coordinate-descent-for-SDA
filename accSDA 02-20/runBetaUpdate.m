@@ -10,20 +10,21 @@ for i=1:n
     Y(i, labels(i))=1;
 end
 
-A = 2*(X'*X + gam*Om); 
+
 Om = eye(p);
 gam = 10^(-5);
 lam = gam;
 mu = 10^(-5);
-
+A = 2*(X'*X + gam*Om); 
 q = 1;
 j = 1;
-alpha = 1;
-maxits = 100;
+alpha1 = 1;
+alpha2 = 1/norm(A);
+maxits = 150;
 Tol = 10^(-6);
 Q = ones(K,q);
+%theta = [-2.1347;0.0450;1.0311;0.4761];
 theta = [1;-1];
-
 %tol = struct('abs', 1e-4, 'rel', 1e-4);
 tol.abs = 1e-4;
 tol.rel = 1e-4;
@@ -33,8 +34,8 @@ PGtol = 10^(-6);
 
 d = 2*X'*(Y*(theta/n));
 
-BetaCD = betaCoordDesc(b0, j, alpha, X, Y, theta, Q, Om, lam, gam, 10, 10^(-3));
-[BetaAP, ~] = prox_EN(A, d, b0, lam, alpha, PGsteps, PGtol);
+BetaCD = betaCoordDesc(b0, j, alpha1, X, Y, theta, Q, Om, lam, gam, 100, 10^(-3), d, A);
+[BetaAP, ~] = prox_EN(A, d, b0, lam, alpha2, PGsteps, PGtol);
 
 classMeans = zeros(p,K);
 

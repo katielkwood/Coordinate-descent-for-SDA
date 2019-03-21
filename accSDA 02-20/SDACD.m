@@ -76,10 +76,10 @@ for j = 1:q
     
     % Initialize theta.
     theta = Mj(rand(K,1)); 
-    theta = theta/sqrt(theta'*D*theta)
+    theta = theta/sqrt(theta'*D*theta);
    
     % Initialize coefficient vector for elastic net step.
-    d = 2*X'*(Y*theta);  %line 199 in Ames paper
+    d = 2*X'*(Y*(theta));  %line 199 in Ames paper
                         %should this be negative?
     
 
@@ -90,7 +90,7 @@ for j = 1:q
         %+++++++++++++++++++++++++++++++++++++++++++++++++++++
         b_old = Beta;
     
-        Beta = betaCoordDesc(Beta, j, alpha, X, Y, theta, Q, Om, lam, gam, 10, 10^(-3));
+        Beta = betaCoordDesc(Beta, j, alpha, X, Y, theta, Q, Om, lam, gam, 100, 10^(-3), d, A);
     
         normBeta = norm(Beta)
     
