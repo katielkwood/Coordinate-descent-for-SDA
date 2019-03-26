@@ -22,6 +22,7 @@ while (Db > tol && betaIts < maxits)
         Beta(i) = (sign(Z).*max(abs(Z) - lam, 0))/(2*(gam + n-1));
 
     end
+   
     
     Db = norm(Beta-b_old)/norm(Beta);
     %Should I change the convergence criteria? This did not work.
@@ -49,7 +50,7 @@ while (Db > tol && betaIts < maxits)
 %     end
     betaIts = betaIts + 1;
 end
-betaIts
+%betaIts
 
 end
 
@@ -66,4 +67,4 @@ end
 %         
         %mix of GLM and derivation
 %         Z = 2*alpha*(X(:,i)'*Y*theta - X(:,i)'*X*Beta);
-%         Beta(i) = (sign(Z)*max(abs(Z) - alpha*lam, 0))/(1 + 2*gam);
+%         Beta(i) = (sign(Z)*max(abs(Z) - alpha*lam, 0))/(1 + 2*gam); 0))/(1 + 2*gam);

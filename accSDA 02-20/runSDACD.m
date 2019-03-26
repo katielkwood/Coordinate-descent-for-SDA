@@ -15,12 +15,12 @@ Om = eye(p);
 gam = 10^(-5);
 %gam = 10^(-1);
 %lam = 10^(-5);
-lam = gam;
+lam = 10^(-1);
 mu = 10^(-5);
 
 q = 1;
 maxits = 1000;
-Tol = 10^(-6);
+Tol = 10^(-3);
 
 %tol = struct('abs', 1e-4, 'rel', 1e-4);
 tol.abs = 1e-4;
@@ -34,7 +34,7 @@ tic
 CDtime = toc
 %[B, Q] = SDAD(X, Y, Om, gam, lam, mu, q, PGsteps, PGtol, maxits, tol);
 tic
-[B_AP,Q_AP] = SDAAP(X, Y, Om, gam, lam, q, PGsteps, PGtol, maxits, Tol);
+[B_AP,Q_AP] = SDAAP(X, Y, Om, gam/4, lam/4, q, PGsteps, PGtol, maxits, Tol);
 APtime = toc
 
 % Initialize.
@@ -43,7 +43,7 @@ classMeans = zeros(p,K);
 classes = train(:,1);
 labels = unique(classes);
 
-%%
+%%%
 for i=1:K    
     % Extract training observations in class i.
     class_obs=X(classes==labels(i),:); 
@@ -62,3 +62,5 @@ end
 %check constraints
 normalizedConstr = Q_CD'*Y'*Y*Q_CD
 
+statsCD
+statsAP

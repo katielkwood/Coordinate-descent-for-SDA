@@ -92,7 +92,7 @@ for j = 1:q
     
         Beta = betaCoordDesc(Beta, j, alpha, X, Y, theta, Q, Om, lam, gam, 100, 10^(-3), d, A);
     
-        normBeta = norm(Beta)
+        normBeta = norm(Beta);
     
         % Update theta using the projected solution.
     
@@ -107,17 +107,19 @@ for j = 1:q
         db = norm(Beta-b_old)/norm(Beta);
         dt = norm(theta-t_old)/norm(theta);
         
+        %fprintf('it: %d | db: %1.3e | dt: %1.3e | tol: %1.3e \n', SDACDits, db, dt, tol)
+        
     
         SDACDits = SDACDits + 1; 
     end
     if SDACDits == 100 
         fprintf('Algorithm did not converge')
-        break
+        %break
     end
     % Update Q and B.
     Q(:,j) = theta;
     B(:,j) = Beta;
-    SDACDits
+    SDACDits; 
     
  
 end
