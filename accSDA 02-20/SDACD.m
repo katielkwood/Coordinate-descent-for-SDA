@@ -83,14 +83,14 @@ for j = 1:q
                         %should this be negative?
     
 
-    while (max(db, dt) > tol && SDACDits < 100)
+    while (max(db, dt) > tol && SDACDits < maxits)
 
         %+++++++++++++++++++++++++++++++++++++++++++++++++++++
         % Coordinate descent method for updating (theta, Beta)
         %+++++++++++++++++++++++++++++++++++++++++++++++++++++
         b_old = Beta;
     
-        Beta = betaCoordDesc(Beta, j, alpha, X, Y, theta, Q, Om, lam, gam, 100, 10^(-3), d, A);
+        Beta = betaCoordDesc(Beta, j, alpha, X, Y, theta, Q, Om, lam, gam, maxits, tol, d, A);
     
         normBeta = norm(Beta);
     
@@ -112,7 +112,7 @@ for j = 1:q
     
         SDACDits = SDACDits + 1; 
     end
-    if SDACDits == 100 
+    if SDACDits == maxits 
         fprintf('Algorithm did not converge')
         %break
     end

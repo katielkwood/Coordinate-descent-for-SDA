@@ -1,0 +1,185 @@
+>> load('OOdata (normalized).mat') 
+>> runSDACD  (******* Used lam = 10^(-1)  gam = 10^(-5)  Tol = 10^(-3)   PGtol = 10^(-3)*********)
+Note: I had not fixed maxits in CD yet. I think it was using 100 in the beta CD update.  PGsteps = 100
+Algorithm did not convergeAlgorithm did not converge
+CDtime =
+
+   40.0082
+
+
+APtime =
+
+    0.2701
+
+
+normalizedConstr =
+
+   30.0000   -0.0000   -0.0000
+   -0.0000   30.0000    0.0000
+         0   -0.0000   30.0000
+
+
+statsCD = 
+
+  struct with fields:
+
+    mc: 0.0667
+    l0: [37 49 48]
+    l1: [5.6376 7.1608 5.9924]
+
+
+statsAP = 
+
+  struct with fields:
+
+    mc: 0
+    l0: [493 475 486]
+    l1: [7.5734 5.5829 6.8272]
+
+>> runSDACD   (******* Used lam = 10^(-5) in CD not AP  gam = 10^(-5)  Tol = 10^(-3)   PGtol = 10^(-3)*********)
+I think I changed the maxits to be 1000 in betaCD at this point
+CDtime =
+
+    0.7556
+
+
+APtime =
+
+    0.2684
+
+
+normalizedConstr =
+
+   30.0000   -0.0000   -0.0000
+   -0.0000   30.0000    0.0000
+   -0.0000    0.0000   30.0000
+
+
+statsCD = 
+
+  struct with fields:
+
+    mc: 0.7333
+    l0: [561 561 561]
+    l1: [39.3677 39.3677 39.3677]
+
+
+statsAP = 
+
+  struct with fields:
+
+    mc: 0
+    l0: [492 488 485]
+    l1: [6.4001 7.1561 6.5731]
+
+>> runSDACD    (******* Used lam = 10^(0) in CD not AP  gam = 10^(-5)  Tol = 10^(-3)   PGtol = 10^(-3)*********)
+
+CDtime =
+
+   30.4421
+
+
+APtime =
+
+    0.2403
+
+
+normalizedConstr =
+
+   30.0000    0.0000    0.0000
+    0.0000   30.0000   -0.0000
+    0.0000   -0.0000   30.0000
+
+
+statsCD = 
+
+  struct with fields:
+
+    mc: 0.3333
+    l0: [20 20 20]
+    l1: [2.4300 2.4300 2.4300]
+
+
+statsAP = 
+
+  struct with fields:
+
+    mc: 0.0333
+    l0: [496 484 477]
+    l1: [7.5691 5.1888 6.5922]
+
+>> runSDACD   (******* Used lam = 10^(-1) again  gam = 10^(-5)  Tol = 10^(-3)   PGtol = 10^(-3)*********)
+
+CDtime =
+
+   21.1804
+
+
+APtime =
+
+    0.2911
+
+
+normalizedConstr =
+
+   30.0000    0.0000    0.0000
+    0.0000   30.0000   -0.0000
+    0.0000   -0.0000   30.0000
+
+
+statsCD = 
+
+  struct with fields:
+
+    mc: 0.3000
+    l0: [30 30 30]
+    l1: [4.5486 4.5486 4.5486]
+
+
+statsAP = 
+
+  struct with fields:
+
+    mc: 0
+    l0: [491 486 482]
+    l1: [7.6370 5.2882 6.6425]
+
+>> load('OOdata (normalized).mat')   (******* Cleared the workspace ********)
+>> runSDACD    (******* Used lam = 10^(-1)  gam = 10^(-5)  Tol = 10^(-3)   PGtol = 10^(-3)*********)
+
+CDtime =
+
+   30.5816
+
+
+APtime =
+
+    0.2500
+
+
+normalizedConstr =
+
+   30.0000   -0.0000   -0.0000
+         0   30.0000   -0.0000
+         0   -0.0000   30.0000
+
+
+statsCD = 
+
+  struct with fields:
+
+    mc: 0.6333
+    l0: [35 35 35]
+    l1: [4.4277 4.4277 4.4277]
+
+
+statsAP = 
+
+  struct with fields:
+
+    mc: 0.0333
+    l0: [452 469 481]
+    l1: [5.1671 6.3861 7.2534]
+
+>> 
+
