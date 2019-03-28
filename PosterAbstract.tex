@@ -1,0 +1,161 @@
+\documentclass[12pt, reqno]{amsart}
+
+\usepackage{hyperref}
+\usepackage{amssymb,upref,enumerate}
+\usepackage{tikz}
+\usepackage{amsmath,amssymb,yfonts,amscd,amsthm,amsxtra,mathrsfs}
+\usepackage{latexsym}
+\usepackage{multirow}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usepackage{xcolor}
+\usepackage{matlab-prettifier}
+\usepackage{tabto}
+
+
+
+\usetikzlibrary{shapes.geometric, arrows}
+\usepgfplotslibrary{polar}
+\usepgflibrary{shapes.geometric}
+\usetikzlibrary{calc}
+
+%\usepackage[dvips]{graphics,epsfig}
+%\usepackage{showkeys}
+
+\headheight=8pt
+\topmargin=0pt
+\textheight=624pt
+\textwidth=432pt
+\oddsidemargin=18pt
+\evensidemargin=18pt
+
+
+\def\Xint#1{\mathchoice 
+{\XXint\displaystyle\textstyle{#1}}% 
+{\XXint\textstyle\scriptstyle{#1}}% 
+{\XXint\scriptstyle\scriptscriptstyle{#1}}% 
+{\XXint\scriptscriptstyle\scriptscriptstyle{#1}}% 
+\!\int} 
+\def\XXint#1#2#3{{\setbox0=\hbox{$#1{#2#3}{\int}$} 
+\vcenter{\hbox{$#2#3$}}\kern-.5\wd0}} 
+\def\ddashint{\Xint=} 
+\def\dashint{\Xint-}
+
+
+\newcommand{\ra}{\rightarrow}
+\newcommand{\lra}{\longrightarrow}
+\newcommand{\bey}{\begin{eqnarray*}}
+\newcommand{\eey}{\end{eqnarray*}}
+\newcommand{\ba}{\begin{align}}
+\newcommand{\ea}{\end{align}}
+\newcommand{\bea}{\begin{align*}}
+\newcommand{\ena}{\end{align*}}
+\newcommand{\be}{\begin{equation}}
+\newcommand{\ee}{\end{equation}}
+\newcommand{\R}{\mathbb R}
+\newcommand{\Z}{\mathbb Z}
+\newcommand{\Rec}{\mathcal R}
+\newcommand{\C}{\mathbb C}
+\newcommand{\N}{\mathbb N}
+\newcommand{\B}{\mathcal B}
+\newcommand{\I}{\mathcal I}
+\newcommand{\Ca}{\mathcal C}
+\newcommand{\D}{\mathcal D}
+\newcommand{\F}{\mathbb F}
+\newcommand{\A}{\mathcal A}
+\newcommand{\Si}{\mathcal S }
+\newcommand{\Sp}{\mathbb S }
+\newcommand{\M}{\mathcal M }
+\newcommand{\Nc}{\mathcal N }
+\newcommand{\Hi}{\mathcal H }
+\newcommand{\K}{\mathcal K }
+\newcommand{\T}{\mathbb T }
+\newcommand{\V}{\mathcal V }
+%\newcommand{\H}{\mathcal H }
+\newcommand{\Q}{\mathbb Q }
+\newcommand{\Li}{\mathcal L }
+\newcommand{\G}{\mathcal G}
+\newcommand{\Ra}{\Rightarrow}
+\newcommand{\Lra}{\Longrightarrow}
+\newcommand{\ep}{\epsilon}
+\newcommand{\dss}{\displaystyle}
+\newcommand{\bc}{\begin{center}}
+\newcommand{\ec}{\end{center}}
+\newcommand{\fa}{\forall}
+\newcommand{\vp}{\varphi}
+\newcommand{\mL}{L^p_tL^q_x}
+\newcommand{\mLR}{L^p_tL^q_x(\R^{n+1})}
+\newcommand{\intR}{\int_{\R}}
+\newcommand{\intRn}{\int_{\R^n}}
+\newcommand{\intRno}{\int_{\R^{n+1}}}
+\newcommand{\intRnm}{\int_{(\R^n)^m}}
+\newcommand{\p}{\partial}
+\newcommand{\lr}{\ d\lambda(r)}
+\newcommand{\gs}{\ d\gamma(s)}
+\newcommand{\mx}{\ d\mu(x)}
+\newcommand{\ny}{\ d\nu(y)}
+\newcommand{\BMO}{\mathcal{BMO}}
+\newcommand{\va}{\vec{\alpha}}
+\newcommand{\vf}{\vec{f}}
+\newcommand{\vy}{\vec{y}}
+\newcommand{\al}{\alpha}
+\newcommand{\lan}{\langle}
+\newcommand{\ran}{\rangle}
+\newcommand{\avgQ}{\frac{1}{|Q|}\int_Q}
+\newcommand{\avgR}{\frac{1}{|R|}\int_R}
+\newcommand{\avgB}{\frac{1}{|B|}\int_B}
+\newcommand{\avgI}{\frac{1}{|I|}\int_I}
+\newcommand{\dl}{\displaylimits}
+\DeclareMathOperator{\re}{Re}
+\DeclareMathOperator{\im}{Im}
+
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{prop}[theorem]{Proposition}
+
+
+
+\theoremstyle{definition}
+\newtheorem*{ack}{Acknowledgments}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{exercise}[theorem]{Exercise}
+\newtheorem{defn}[theorem]{Definition}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+
+%\numberwithin{equation}{section}
+
+
+\tikzstyle{process} = [rectangle, minimum width=3cm, minimum height=1cm, text centered, draw=black, fill=orange!30]
+\tikzstyle{startstop} = [rectangle, rounded corners, minimum width=3cm, minimum height=1cm,text centered, draw=black, fill=red!30]
+\tikzstyle{io} = [trapezium, trapezium left angle=70, trapezium right angle=110, minimum width=3cm, minimum height=1cm, text centered, draw=black, fill=blue!30]
+\tikzstyle{decision} = [diamond, minimum width=3cm, minimum height=1cm, text centered, draw=black, fill=green!30]
+\tikzstyle{arrow} = [thick,->,>=stealth]
+\tikzstyle{dot} = [circle ,fill=blue, scale=0.4]
+\tikzstyle{knowndot} = [circle ,fill=pink, scale=0.4]
+\tikzstyle{circlenode}=[circle,draw,font=\sffamily\Large\bfseries]
+\tikzstyle{opennode}=[fill=white, inner sep=1pt]
+
+
+\pgfplotsset{my style/.append style={axis x line=middle, axis y line=middle, xlabel={$x$}, ylabel={$y$}, axis equal }}
+
+
+ \lstdefinestyle{text}
+{basicstyle=\footnotesize}
+
+
+
+
+\begin{document}
+
+\title[]{Coordinate Descent Method for Sparse Optimal Scoring}
+\maketitle
+
+Linear discriminant analysis (LDA) is a popular tool for performing supervised classification in a high-dimensional setting. It seeks to reduce the dimension by projecting the data to a lower dimensional space using a set of optimal discriminant vectors to separate the classes. One formulation of LDA is optimal scoring which uses a sequence of scorings to turn the categorical variables into quantitative variables. In this way, optimal scoring creates a generalized linear regression problem from a classification problem. The sparse optimal scoring formulation of LDA uses an elastic-net penalty on the discriminant vectors to induce sparcity and perform feature selection. We propose a coordinate descent algorithm for finding optimal discriminant vectors in the sparse optimal scoring formulation of LDA. 
+
+\end{document}
+
