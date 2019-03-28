@@ -1,0 +1,87 @@
+load('OOdata (normalized).mat')
+%Om = eye(p); gam = 10^(-4); lam = 10^(-1); q = 3; maxits = 500; Tol = 10^(-3); PGsteps = 100; PGtol = 10^(-3);
+runSDACD
+{Error using <a href="matlab:matlab.internal.language.introspective.errorDocCallback('betaCoordDesc')" style="font-weight:bold">betaCoordDesc</a>
+Too many input arguments.
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('SDACD', '/Users/katiewood/Documents/research/Coordinate-descent-for-SDA/accSDA 02-20/SDACD.m', 92)" style="font-weight:bold">SDACD</a> (<a href="matlab: opentoline('/Users/katiewood/Documents/research/Coordinate-descent-for-SDA/accSDA 02-20/SDACD.m',92,0)">line 92</a>)
+        Beta = betaCoordDesc(Beta, j, alpha, X, Y, theta, Q, Om, lam, gam, maxits, tol, d, A);
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('runSDACD', '/Users/katiewood/Documents/research/Coordinate-descent-for-SDA/accSDA 02-20/runSDACD.m', 26)" style="font-weight:bold">runSDACD</a> (<a href="matlab: opentoline('/Users/katiewood/Documents/research/Coordinate-descent-for-SDA/accSDA 02-20/runSDACD.m',26,0)">line 26</a>)
+[B_CD, Q_CD] = SDACD(b0, Y, X, Om, gam, lam, q, maxits, Tol);
+} 
+runSDACD
+
+CDtime =
+
+   25.2368
+
+
+APtime =
+
+    0.2734
+
+
+normalizedConstr =
+
+   30.0000   -0.0000   -0.0000
+   -0.0000   30.0000    0.0000
+   -0.0000    0.0000   30.0000
+
+
+statsCD = 
+
+  <a href="matlab:helpPopup struct" style="font-weight:bold">struct</a> with fields:
+
+    mc: 0.2667
+    l0: [38 38 38]
+    l1: [4.5965 4.5965 4.5965]
+
+
+statsAP = 
+
+  <a href="matlab:helpPopup struct" style="font-weight:bold">struct</a> with fields:
+
+    mc: 0
+    l0: [486 473 512]
+    l1: [7.1818 5.3776 7.1024]
+
+load('OOdata (normalized).mat')
+%Om = eye(p); gam = 10^(-4); lam = 10^(-1); q = 3; maxits = 500; Tol = 10^(-3); PGsteps = 100; PGtol = 10^(-3);
+runSDACD
+
+CDtime =
+
+   25.5318
+
+
+APtime =
+
+    0.2750
+
+
+normalizedConstr =
+
+   30.0000    0.0000    0.0000
+    0.0000   30.0000    0.0000
+         0    0.0000   30.0000
+
+
+statsCD = 
+
+  <a href="matlab:helpPopup struct" style="font-weight:bold">struct</a> with fields:
+
+    mc: 0.3333
+    l0: [33 33 33]
+    l1: [4.9968 4.9968 4.9968]
+
+
+statsAP = 
+
+  <a href="matlab:helpPopup struct" style="font-weight:bold">struct</a> with fields:
+
+    mc: 0.0333
+    l0: [469 477 475]
+    l1: [6.2089 6.5660 6.8475]
+
+diary off
