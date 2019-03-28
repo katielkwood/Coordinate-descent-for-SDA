@@ -59,13 +59,16 @@ db = 1;
 dt = 1;
 for j = 1:q
     SDACDits = 0;
+    db = 1;
+    dt = 1;
+
 
      %+++++++++++++++++++++++++++++++++++++++++++++++++++++
      % Initialization.
      %+++++++++++++++++++++++++++++++++++++++++++++++++++++
     
     % Compute Qj (K by j, first j-1 scoring vectors, all-ones last col).
-    Qj = Q(:, 1:j);
+    Qj = Q(:, 1:j)
     
     % Precompute Mj = I - Qj*Qj'*D.
     Mj = @(u) u - Qj*(Qj'*D*u);
@@ -90,8 +93,8 @@ for j = 1:q
         %+++++++++++++++++++++++++++++++++++++++++++++++++++++
         b_old = Beta;
     
-        Beta = betaCoordDesc(Beta, j, alpha, X, Y, theta, Q, Om, lam, gam, maxits, tol, d, A);
-    
+        [Beta, betaits] = betaCoordDesc(Beta, j, alpha, X, Y, theta, Q, Om, lam, gam, maxits, tol, d, A);
+        betaits
         normBeta = norm(Beta);
     
         % Update theta using the projected solution.
@@ -110,7 +113,7 @@ for j = 1:q
         %fprintf('it: %d | db: %1.3e | dt: %1.3e | tol: %1.3e \n', SDACDits, db, dt, tol)
         
     
-        SDACDits = SDACDits + 1; 
+        SDACDits = SDACDits + 1
     end
     if SDACDits == maxits 
         fprintf('Algorithm did not converge')
