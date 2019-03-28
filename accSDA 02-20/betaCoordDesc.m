@@ -1,4 +1,5 @@
-function [Beta] = betaCoordDesc(b, alpha, X, Y, theta, lam, gam, maxits, tol)
+function [Beta, betaIts ] = betaCoordDesc(b0, j, alpha, X, Y, theta, Q, Om, lam, gam, maxits, tol, d, A)
+
 
 [n, p] = size(X);
 Db = 1;

@@ -15,8 +15,8 @@ Om = eye(p);
 gam = 10^(-4);
 lam = 10^(-1);
 
-q = 3;
-maxits = 500;
+q = K-1;
+maxits = 300;
 Tol = 10^(-3);
 
 PGsteps = 100;
@@ -58,3 +58,6 @@ normalizedConstr = Q_CD'*Y'*Y*Q_CD
 
 statsCD
 statsAP
+
+%plot([B_CD, testB_AP])
+plot(B_CD)
