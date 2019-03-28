@@ -336,7 +336,84 @@ $\beta^{t+1} \leftarrow \beta^t + (z_{i_t}^t - \beta_{i_t}^t) e_{i_t}$. So only 
 \end{equation*}
 where $D = (1-2 \alpha_t \gamma)\beta_{i_t}^t + 2 \alpha_t (X_{i_t})^T Y \theta^{t+1} - 2 \alpha_t (X_{i_t})^T X\beta^t$
 
+\newpage
 
+\section{Coordinate Descent based on GLM Approach}
+$f(\beta) = \|Y \theta^{t+1} - X \beta \|^2 + \gamma \|\beta\|^2 + \lambda \|\beta\|_1 \ $ with $\Omega = I \ $ where $ \| \| = \|  \|_2$\\
+
+Let $y = Y \theta^{t+1}$. Then we have\\
+\begin{equation*}
+\begin{split}
+f(\beta) &= \|y - X \beta \|^2 + \gamma \|\beta\|^2 + \lambda \|\beta\|_1 \text{ with } \Omega = I  \text{ where }  \| \| = \|  \|_2 \\
+	&= \sum_{i = 1}^{n} (y_i - \sum_{k = 1}^{p} X_{ik} \beta_k )^2 + \gamma \sum_{k = 1}^{p} \beta_k^2 + \lambda \sum_{k = 1}^{p} |\beta_k|
+\end{split}
+\end{equation*}
+
+Rewrite $f(\beta)$ with a partial residual.
+
+\begin{equation*}
+\begin{split}
+f(\beta) &= \sum_{i = 1}^{n} (y_i - \sum_{k \neq j}^{} X_{ik} \beta_k - X_{ij} \beta_j )^2 + \gamma \sum_{k = 1}^{p} \beta_k^2 + \lambda \sum_{k = 1}^{p} |\beta_k|
+\end{split}
+\end{equation*}
+
+Minimize w.r.t. $\beta_j$ (i.e. take the partial derivative w.r.t. $\beta_j$ and set equal to $0$).
+
+\begin{equation*}
+\begin{split}
+0 &\in 2 \sum_{i = 1}^{n} (y_i - \sum_{k \neq j}^{} X_{ik} \beta_k - X_{ij} \beta_j )(-X_{ij}) + 2 \gamma \beta_j + \lambda \phi \\
+ & \text{where $\phi$ is the subgradient of $|\beta_j|$.}\\
+\end{split}
+\end{equation*}
+
+
+Solve for $\beta_k$.\\
+\begin{equation*}
+\begin{split}
+2 \sum_{i = 1}^{n} (y_i - \sum_{k \neq j}^{} X_{ik} \beta_k - X_{ij} \beta_j )(X_{ij})  - \lambda \phi &= 2 \gamma \beta_j\\
+2 \sum_{i = 1}^{n} (X_{ij}y_i - X_{ij}\sum_{k \neq j}^{} X_{ik} \beta_k - X_{ij}^2 \beta_j )  - \lambda \phi &= 2 \gamma \beta_j\\
+2 (X_j)^T y - 2 X_j^T (X \beta - \beta_j X_j) - 2\sum_{i = 1}^{n} X_{ij}^2 \beta_j  - \lambda \phi &= 2 \gamma \beta_j\\
+\text{ where $X_j$ is the $j^{th}$ column of X} & \\
+2 (X_j)^T y - 2 X_j^T (X \beta - \beta_j X_j) - 2(n-1) \beta_j  - \lambda \phi &= 2 \gamma \beta_j\\
+\text{ since $\sum_{i = 1}^{n} X_{ij}^2 = n - 1$ for our data} & \\
+2 (X_j)^T y - 2 X_j^T (X \beta - \beta_j X_j)  - \lambda \phi &= 2 \gamma \beta_j  + 2(n-1) \beta_j\\
+2 (X_j)^T y - 2 X_j^T (X \beta - \beta_j X_j)  - \lambda \phi &= 2 (\gamma + (n-1)) \beta_j\\
+\end{split}
+\end{equation*}
+\hfill \\
+Say $\beta_j^*$ is the optimal solution. Let $Z = 2 (X_j)^T y - 2 X_j^T (X \beta - \beta_j X_j)$. We have 3 cases.
+
+\begin{equation*}
+\begin{split}
+\beta_j^* > 0 \Rightarrow \phi = 1 &\Rightarrow Z  - \lambda = 2 (\gamma + n-1) \beta_j^*\\
+& \text{ if $Z > 0$ and $\lambda < |Z|$} \\
+\beta_j^* < 0 \Rightarrow \phi = -1 &\Rightarrow Z  + \lambda = 2 (\gamma + n-1) \beta_j^*\\
+& \text{ if $Z < 0$ and $\lambda < |Z|$} \\
+\beta_j^* = 0 \Rightarrow \phi = [-1,1] &\Rightarrow Z  - \lambda[-1,1] \in 0\\
+&\Rightarrow Z - \lambda \leq 0 \leq Z + \lambda\\
+& \Rightarrow \lambda > |Z| \\
+\end{split}
+\end{equation*}
+
+Therefore, $2(\gamma + n - 1)\beta_j^* = S(Z, \lambda)$ where $S(Z, \lambda)$ is the soft-thresholding operator with value\\
+
+\begin{equation*}
+\begin{split}
+S(Z, \lambda)
+		&= \left\{
+		\begin{array}{ll}
+				0  & \quad \lambda \geq |Z|\\
+				Z - \lambda & \quad Z > 0 \text{ and } \lambda < |Z|\\
+				Z + \lambda & \quad Z < 0 \text{ and } \lambda < |Z|
+			\end{array}
+			\right. \\				
+\end{split}
+\end{equation*}
+
+Hence, 
+\begin{equation*}
+\beta_j^* = \frac{S(Z, \lambda)}{2(\gamma + n - 1)}
+\end{equation*}
 
 \end{document}
 

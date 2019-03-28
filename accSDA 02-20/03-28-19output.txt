@@ -1,0 +1,225 @@
+load('ECGdata (normalized).mat')
+%Om = eye(p); gam = 10^(-5); lam = 10^(-1); q = 1; maxits = 500; Tol = 10^(-3); PGsteps = 100; PGtol = 10^(-3);
+runSDACD
+
+CDtime =
+
+    1.1296
+
+
+APtime =
+
+    0.0250
+
+
+normalizedConstr =
+
+   23.0000
+
+
+statsCD = 
+
+  <a href="matlab:helpPopup struct" style="font-weight:bold">struct</a> with fields:
+
+    mc: 0.0232
+    l0: 27
+    l1: 4.0637
+
+
+statsAP = 
+
+  <a href="matlab:helpPopup struct" style="font-weight:bold">struct</a> with fields:
+
+    mc: 0.0197
+    l0: 118
+    l1: 4.8180
+
+load('OOdata (normalized).mat')
+%Om = eye(p); gam = 10^(-5); lam = 10^(-1); q = 3; maxits = 500; Tol = 10^(-3); PGsteps = 100; PGtol = 10^(-3);
+runSDACD
+
+CDtime =
+
+   25.9550
+
+
+APtime =
+
+    0.2873
+
+
+normalizedConstr =
+
+   30.0000   -0.0000   -0.0000
+   -0.0000   30.0000   -0.0000
+   -0.0000   -0.0000   30.0000
+
+
+statsCD = 
+
+  <a href="matlab:helpPopup struct" style="font-weight:bold">struct</a> with fields:
+
+    mc: 0.6667
+    l0: [38 38 38]
+    l1: [4.5688 4.5688 4.5688]
+
+
+statsAP = 
+
+  <a href="matlab:helpPopup struct" style="font-weight:bold">struct</a> with fields:
+
+    mc: 0
+    l0: [476 473 482]
+    l1: [6.2925 6.8666 6.8472]
+
+%Om = eye(p); gam = 10^(-4); lam = 10^(-1); q = 3; maxits = 500; Tol = 10^(-3); PGsteps = 100; PGtol = 10^(-3);
+runSDACD
+
+CDtime =
+
+   13.3055
+
+
+APtime =
+
+    0.3745
+
+
+normalizedConstr =
+
+   30.0000   -0.0000    0.0000
+   -0.0000   30.0000   -0.0000
+    0.0000   -0.0000   30.0000
+
+
+statsCD = 
+
+  <a href="matlab:helpPopup struct" style="font-weight:bold">struct</a> with fields:
+
+    mc: 0.3000
+    l0: [48 48 48]
+    l1: [7.3613 7.3613 7.3613]
+
+
+statsAP = 
+
+  <a href="matlab:helpPopup struct" style="font-weight:bold">struct</a> with fields:
+
+    mc: 0
+    l0: [491 470 471]
+    l1: [6.9628 7.5255 5.8104]
+
+runSDACD
+
+CDtime =
+
+   12.9917
+
+
+APtime =
+
+    0.3032
+
+
+normalizedConstr =
+
+   30.0000         0   -0.0000
+         0   30.0000    0.0000
+   -0.0000    0.0000   30.0000
+
+
+statsCD = 
+
+  <a href="matlab:helpPopup struct" style="font-weight:bold">struct</a> with fields:
+
+    mc: 0.4000
+    l0: [48 48 48]
+    l1: [6.8619 6.8619 6.8619]
+
+
+statsAP = 
+
+  <a href="matlab:helpPopup struct" style="font-weight:bold">struct</a> with fields:
+
+    mc: 0
+    l0: [482 497 478]
+    l1: [5.2003 7.5289 6.9325]
+
+%for previous run Om = eye(p); gam = 10^(-3); lam = 10^(-1); q = 3; maxits = 500; Tol = 10^(-3); PGsteps = 100; PGtol = 10^(-3);
+load('OOdata (normalized).mat')
+%Om = eye(p); gam = 10^(-4); lam = 10^(-1); q = 3; maxits = 500; Tol = 10^(-3); PGsteps = 100; PGtol = 10^(-3);
+runSDACD
+
+CDtime =
+
+    7.1738
+
+
+APtime =
+
+    0.2869
+
+
+normalizedConstr =
+
+   30.0000    0.0000   -0.0000
+    0.0000   30.0000    0.0000
+   -0.0000    0.0000   30.0000
+
+
+statsCD = 
+
+  <a href="matlab:helpPopup struct" style="font-weight:bold">struct</a> with fields:
+
+    mc: 0.4000
+    l0: [44 44 44]
+    l1: [4.4457 4.4457 4.4457]
+
+
+statsAP = 
+
+  <a href="matlab:helpPopup struct" style="font-weight:bold">struct</a> with fields:
+
+    mc: 0.0333
+    l0: [465 485 473]
+    l1: [5.7678 6.3981 7.2377]
+
+load('OOdata (normalized).mat')
+%Om = eye(p); gam = 10^(-4); lam = 10^(-1); q = 3; maxits = 500; Tol = 10^(-3); PGsteps = 100; PGtol = 10^(-3);
+runSDACD
+
+CDtime =
+
+   34.2154
+
+
+APtime =
+
+    0.2906
+
+
+normalizedConstr =
+
+   30.0000   -0.0000   -0.0000
+   -0.0000   30.0000   -0.0000
+   -0.0000   -0.0000   30.0000
+
+
+statsCD = 
+
+  <a href="matlab:helpPopup struct" style="font-weight:bold">struct</a> with fields:
+
+    mc: 0.4333
+    l0: [34 34 34]
+    l1: [4.5657 4.5657 4.5657]
+
+
+statsAP = 
+
+  <a href="matlab:helpPopup struct" style="font-weight:bold">struct</a> with fields:
+
+    mc: 0
+    l0: [488 475 490]
+    l1: [5.6613 7.1138 7.0182]
+
+diary off

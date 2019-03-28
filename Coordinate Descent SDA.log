@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  28 MAR 2019 09:39
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  28 MAR 2019 13:15
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -995,25 +995,46 @@ Overfull \hbox (36.17458pt too wide) in paragraph at lines 336--336
  []
 
 [3]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 341.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 341.
+Underfull \hbox (badness 10000) in paragraph at lines 342--343
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 344--345
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 370--371
+
+ []
+
+[4]
+Underfull \hbox (badness 10000) in paragraph at lines 398--399
+
+ []
+
+[5]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 418.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 418.
  (./Coordinate Descent SDA.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 341.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 341.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 418.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 418.
 Package rerunfilecheck Info: File `"Coordinate Descent SDA".out' has not change
 d.
-(rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 341.
+(rerunfilecheck)             Checksum: C525BCAF20B4759AAA0D7D71D6AD3D33;78.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 418.
  ) 
 Here is how much of TeX's memory you used:
- 28729 strings out of 493014
- 676437 string characters out of 6133351
+ 28737 strings out of 493014
+ 676499 string characters out of 6133351
  832773 words of memory out of 5000000
- 31631 multiletter control sequences out of 15000+600000
- 12215 words of font info for 54 fonts, out of 8000000 for 9000
+ 31635 multiletter control sequences out of 15000+600000
+ 12516 words of font info for 55 fonts, out of 8000000 for 9000
  1302 hyphenation exceptions out of 8191
  55i,23n,77p,739b,609s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb
+></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb
 ></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb>
 </usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb><
 /usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></u
@@ -1023,10 +1044,10 @@ ocal/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/loca
 l/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/local/t
 exlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/te
 xlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
-Output written on "Coordinate Descent SDA.pdf" (3 pages, 100773 bytes).
+Output written on "Coordinate Descent SDA.pdf" (5 pages, 119733 bytes).
 PDF statistics:
- 64 PDF objects out of 1000 (max. 8388607)
- 48 compressed objects within 1 object stream
- 4 named destinations out of 1000 (max. 500000)
- 13 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 83 PDF objects out of 1000 (max. 8388607)
+ 64 compressed objects within 1 object stream
+ 7 named destinations out of 1000 (max. 500000)
+ 21 words of extra memory for PDF output out of 10000 (max. 10000000)
 

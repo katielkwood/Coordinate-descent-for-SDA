@@ -47,7 +47,6 @@ R = chol(D); % Cholesky factorization of D.
 %-------------------------------------------------------------------
 % Alpha. Change later.
 %-------------------------------------------------------------------
-%A = X'*X;
 %alpha = 1/norm(A);
 alpha = 1;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -93,8 +92,9 @@ for j = 1:q
         %+++++++++++++++++++++++++++++++++++++++++++++++++++++
         b_old = Beta;
     
-        [Beta, betaits] = betaCoordDesc(Beta, j, alpha, X, Y, theta, Q, Om, lam, gam, maxits, tol, d, A);
-        betaits
+
+        Beta = betaCoordDesc(Beta, alpha, X, Y, theta, lam, gam, maxits, tol);
+    
         normBeta = norm(Beta);
     
         % Update theta using the projected solution.
